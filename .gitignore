@@ -1,0 +1,67 @@
+# OS files
+.DS_Store
+Icon\r\r
+.floo
+.flooignore
+*~
+
+# Java files
+.classpath
+.project
+.settings
+build/
+
+# intellij files
+.shelf/
+*.iml
+*.ipr
+*.iws
+build-idea/
+reports/
+test-output/
+
+# eclipse files
+bin/
+.jdt.ls/
+benchmarks/.factorypath
+
+# Python files
+__pycache__/
+.installed.cfg
+_venv/
+.venv/
+*.pyc
+*.pyo
+.mypy_cache/
+blackbox/get-pip.py
+blackbox/.mypy_cache/
+develop-eggs/
+eggs/
+parts/
+tmp/
+
+# app files
+app/adminui/
+app/data/
+app/enterprise/
+app/extensions/
+app/logs/
+app/oss_modules/
+app/plugins/
+app/src/main/dist/bin/crate.bat
+app/src/main/resources/crate-build.properties
+
+# Docs
+_out/
+out/
+
+# Misc
+sandbox/crate/data/
+sandbox/crate/repo/
+sandbox/crate2/data/
+sandbox/crate2/repo/
+**/gen/
+target/
+*.factorypath
+.mvn/wrapper/maven-wrapper.jar
+pom.xml.versionsBackup

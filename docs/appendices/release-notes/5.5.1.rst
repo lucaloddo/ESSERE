@@ -1,0 +1,67 @@
+.. _version_5.5.1:
+
+==========================
+Version 5.5.1 - Unreleased
+==========================
+
+
+.. comment 1. Remove the " - Unreleased" from the header above and adjust the ==
+.. comment 2. Remove the NOTE below and replace with: "Released on 20XX-XX-XX."
+.. comment    (without a NOTE entry, simply starting from col 1 of the line)
+
+.. NOTE::
+
+    In development. 5.5.1 isn't released yet. These are the release notes for
+    the upcoming release.
+
+.. NOTE::
+
+    If you are upgrading a cluster, you must be running CrateDB 4.0.2 or higher
+    before you upgrade to 5.5.1.
+
+    We recommend that you upgrade to the latest 5.4 release before moving to
+    5.5.1.
+
+    A rolling upgrade from 5.4.x to 5.5.1 is supported.
+    Before upgrading, you should `back up your data`_.
+
+.. WARNING::
+
+    Tables that were created before CrateDB 4.x will not function with 5.x
+    and must be recreated before moving to 5.x.x.
+
+    You can recreate tables using ``COPY TO`` and ``COPY FROM`` or by
+    `inserting the data into a new table`_.
+
+.. _back up your data: https://crate.io/docs/crate/reference/en/latest/admin/snapshots.html
+.. _inserting the data into a new table: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#tables-need-to-be-recreated
+
+.. rubric:: Table of contents
+
+.. contents::
+   :local:
+
+
+See the :ref:`version_5.5.0` release notes for a full list of changes in the
+5.5 series.
+
+
+Fixes
+=====
+
+- Re-added ``jcmd`` to the bundled JDK distribution.
+
+- Return meaningful error when trying to drop a column which itself or its
+  sub-columns participates in a
+  :ref:`table level constraint with other columns <check_constraint_multiple_cols>`.
+  For example, we  cannot drop column ``col_to_drop`` from the following
+  tables::
+
+    CREATE TABLE t1 (i int, col_to_drop int,
+                     CHECK (col_to_drop + i > 0))
+    CREATE TABLE t2 (i int, col_to_drop object AS (subcol_a int),
+                     CHECK (col_to_drop['subcol_a'] + i > 0))
+
+- Fixed an issue that caused a ``ColumnUnknownException`` to be thrown when
+  attempting to drop a column with a :ref:`check_constraint`. All relevant
+  constraints are dropped together with the column.
