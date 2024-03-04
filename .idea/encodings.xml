@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/benchmarks/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/benchmarks/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/extensions/functions/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/extensions/functions/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/extensions/jmx-monitoring/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/extensions/jmx-monitoring/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/extensions/lang-js/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/extensions/lang-js/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jlink-jdk/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jlink-jdk/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/cli/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/cli/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/dex/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/dex/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/es-x-content/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/es-x-content/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/guice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/guice/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/pgwire/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/pgwire/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/shared/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/shared/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/sql-parser/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libs/sql-parser/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/cr8-copy-s3/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/cr8-copy-s3/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/dns-discovery/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/dns-discovery/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-analysis-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-analysis-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-analysis-phonetic/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-analysis-phonetic/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-discovery-ec2/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-discovery-ec2/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-repository-azure/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-repository-azure/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-repository-s3/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-repository-s3/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-repository-url/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plugins/es-repository-url/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

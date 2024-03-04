@@ -1,0 +1,268 @@
+.. _version_4.1.0:
+
+=============
+Version 4.1.0
+=============
+
+Released on 2020/01/15.
+
+.. NOTE::
+
+    If you are upgrading a cluster, you must be running CrateDB 4.0.2 or higher
+    before you upgrade to 4.1.0.
+
+    We recommend that you upgrade to the latest 4.0 release before moving to
+    4.1.0.
+
+    A rolling upgrade to 4.1.0 from 4.0.2+ is supported.
+
+    Before upgrading, you should `back up your data`_.
+
+.. _back up your data: https://crate.io/docs/crate/reference/en/latest/admin/snapshots.html
+
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+
+Breaking Changes
+================
+
+- Changed :ref:`arithmetic operations <arithmetic>` ``*``, ``+``, and ``-`` of
+  types ``integer`` and ``bigint`` to throw an exception instead of rolling
+  over from positive to negative or the other way around.
+
+- Remap CrateDB :ref:`data-types-objects` array data type from the PostgreSQL
+  JSON to JSON array type. That might effect some drivers that use the
+  PostgreSQL wire protocol to insert data into tables with object array typed
+  columns. For instance, when using the ``Npgsql`` driver, it is not longer
+  possible to insert an array of objects into a column of the object array data
+  type by using the parameter of a SQL statement that has the JSON data type
+  and an array of CLR as its value. Instead, use a string array with JSON
+  strings that represent the objects. See the ``Npgsql`` documentation for more
+  details.
+
+- Changed how columns of type :ref:`data-types-geo` are being communicated
+  to PostgreSQL clients.
+
+  Before, clients were told that those columns are double arrays. Now, they are
+  correctly mapped to the PostgreSQL ``point`` type. This means that
+  applications using clients like ``JDBC`` will have to be adapted to use
+  ``PgPoint``. (See `Geometric DataTypes in JDBC
+  <https://jdbc.postgresql.org/documentation/server-prepare/#geometric-data-types>`_)
+
+- Changed the behavior of ``unnest`` to fully unnest multi dimensional arrays
+  to their innermost type to be compatible with PostgreSQL.
+
+
+Deprecations
+============
+
+- Deprecated the ``node.store.allow_mmapfs`` setting in favour of
+  :ref:`node.store.allow_mmap <node.store_allow_mmap>`.
+
+
+Changes
+=======
+
+
+Resiliency improvements
+-----------------------
+
+- Allow user to limit the number of threads on a single shard that may be
+  merging at once via the :ref:`merge.scheduler.max_thread_count
+  <sql-create-table-merge-scheduler-max-thread-count>` table parameter.
+
+- Some ``ALTER TABLE`` operations now internally invoke a single cluster state
+  update instead of multiple cluster state updates. This change improves
+  resiliency because there is no longer a window where the cluster state could
+  be inconsistent.
+
+- Changed the default garbage collector from Concurrent Mark Sweep to G1GC.
+  This should lead to shorter GC pauses.
+
+- Added a dynamic bulk sizing mechanism that should prevent ``INSERT INTO ...
+  FROM query`` operations from running into out-of-memory errors when the
+  individual records of a table are large.
+
+- Added the :ref:`cluster.routing.allocation.total_shards_per_node
+  <cluster.routing.allocation.total_shards_per_node>` setting.
+
+
+Performance improvements
+------------------------
+
+- Optimized ``SELECT DISTINCT .. LIMIT n`` queries. On high cardinality
+  columns, these types of queries now execute up to 200% faster and use less
+  memory.
+
+- The optimizer now utilizes internal statistics to approximate the number of
+  rows returned by various parts of a query plan. This should result in more
+  efficient execution plans for joins.
+
+- Reduced recovery time by sending file-chunks concurrently. This change only
+  applies when transport communication is secured or compressed. The number of
+  chunks is controlled by the :ref:`indices.recovery.max_concurrent_file_chunks
+  <indices.recovery.max_concurrent_file_chunks>` setting.
+
+- Added an optimization that allows ``WHERE`` clauses on top of derived tables
+  containing :ref:`table functions <table-functions>` to run more efficiently
+  in some cases.
+
+- Allow user to control how table data is stored and accessed on a disk via the
+  :ref:`store.type <sql-create-table-store-type>` table parameter and
+  :ref:`node.store.allow_mmap <node.store_allow_mmap>` node setting.
+
+- Changed the default table data store type from ``mmapfs`` to ``hybridfs``.
+
+
+SQL Standard and PostgreSQL compatibility improvements
+------------------------------------------------------
+
+
+Window function extensions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Added support for the :ref:`lag <window-functions-lag>` and :ref:`lead
+  <window-functions-lead>` window functions as enterprise features.
+
+- Added support for ``ROWS`` frame definitions in the context of window
+  functions :ref:`window definitions <window-definition>`.
+
+- Added support for the :ref:`named window definition
+  <window-definition-named-windows>`.  This change allows a user to define a
+  list of window definitions in the :ref:`WINDOW <sql-select-window>` clause
+  that can be referenced in :ref:`OVER <sql-select-over>` clauses.
+
+- Added support for ``offset PRECEDING`` and ``offset FOLLOWING`` :ref:`window
+  definitions <window-definition>`.
+
+
+Functions and operators
+~~~~~~~~~~~~~~~~~~~~~~~
+
+- Added support for the :ref:`ALL <all_array_comparison>` operator for array
+  and :ref:`subquery <gloss-subquery>` comparisons.
+
+- Added a :ref:`PG_GET_KEYWORDS <pg_catalog.pg_get_keywords>` table function.
+
+- Extended :ref:`CONCAT <scalar-concat>` to do implicit casts, so that calls
+  like ``SELECT 't' || 5`` are supported.
+
+- Added support for casting values of type ``object`` to ``text``. This casting
+  will cause the object to be converted to a JSON string.
+
+- Added support for casting to :ref:`data-types-geo`,
+  :ref:`data-types-geo-shape` and :ref:`data-types-objects` array data types.
+
+  For example::
+
+      cast(['POINT(2 3)','POINT(1 3)'] AS array(geo_point))
+
+- Added the :ref:`PG_TYPEOF <scalar-pg_typeof>` system function.
+
+- Added the :ref:`INTERVAL <type-interval>` data type and extended
+  :ref:`table-functions-generate-series` to work with timestamps and the new
+  :ref:`INTERVAL <type-interval>` type.
+
+- Added :ref:`LPAD <scalar-lpad>` and :ref:`RPAD <scalar-rpad>` scalar
+  functions.
+
+- Added the :ref:`LTRIM <scalar-ltrim>` and :ref:`RTRIM <scalar-rtrim>` scalar
+  functions.
+
+- Added :ref:`LEFT <scalar-left>` and :ref:`RIGHT <scalar-right>` scalar
+  functions.
+
+- Added :ref:`TIMEZONE <scalar-timezone>` scalar function.
+
+- Added :ref:`AT TIME ZONE <type-timestamp-at-tz>` syntax.
+
+- Added support for the operator :ref:`ILIKE <sql_dql_like>`, the case
+  insensitive complement to ``LIKE``.
+
+- Added support for CIDR notation comparisons through special purpose
+  :ref:`operator <gloss-operator>` ``<<`` associated with type IP.
+
+  Statements like ``192.168.0.0 << 192.168.0.1/24`` :ref:`evaluate
+  <gloss-evaluation>` as true, meaning ``SELECT ip FROM ips_table WHERE ip <<
+  192.168.0.1/24`` returns matching :ref:`IP addresses <type-ip>`.
+
+
+New statements and clauses
+--------------------------
+
+- Added a :ref:`ANALYZE <analyze>` command that can be used to update
+  statistical data about the contents of the tables in the CrateDB cluster.
+  This data is visible in a newly added :ref:`pg_stats <pg_stats>` table.
+
+- Added a :ref:`PROMOTE REPLICA <sql-alter-table-reroute>` subcommand to
+  :ref:`sql-alter-table`.
+
+- Added support for the filter clause in :ref:`aggregate expressions
+  <aggregation-expressions>` and :ref:`window functions <window-function-call>`
+  that are :ref:`aggregates <aggregation>`.
+
+- Added support for using :ref:`ref-values` as a top-level relation.
+
+
+Observability improvements
+--------------------------
+
+- Added a ``failures`` column to the :ref:`sys.snapshots <sys-snapshots>`
+  table.
+
+- Improved the error messages that were returned if a relation or schema is not
+  found.
+
+  The error messages may now include suggestions for similarly named tables,
+  which should make typos more apparent and help users figure out they are
+  missing double quotes (e.g., when a table name contains upper case letters).
+
+- Added a ``seq_no_stats`` and a ``translog_stats`` column to the
+  :ref:`sys.shards <sys-shards>` table.
+
+- Added new system table :ref:`sys.segments <sys-segments>` which contains
+  information about the Lucene segments of a shard.
+
+- Added a ``node`` column to :ref:`sys.jobs_log <sys-logs>`.
+
+- Statements containing limits, filters, :ref:`window functions
+  <window-functions>`, or :ref:`table functions <table-functions>` will now be
+  labelled accordingly in :ref:`sys-jobs-metrics`.
+
+
+Others
+------
+
+- Changed the default for :ref:`sql-create-table-write-wait-for-active-shards`
+  from ``ALL`` to ``1``. This update improves the out of the box experience by
+  allowing a subset of nodes to become unavailable without blocking write
+  operations. See the documentation linked above for more details about the
+  implications.
+
+- Added ``phonetic`` token filter with following encoders: ``metaphone``,
+  ``double_metaphone``, ``soundex``, ``refined_soundex``, ``caverphone1``,
+  ``caverphone2``, ``cologne``, ``nysiis``, ``koelnerphonetik``,
+  ``haasephonetik``, ``beider_morse``, and ``daitch_mokotoff``.
+
+- Removed a restriction for predicates in the ``WHERE`` clause involving
+  :ref:`partitioned columns <gloss-partitioned-column>`, which could result in
+  a failure response with the message: ``logical conjunction of the conditions
+  in the WHERE clause which involve partitioned columns led to a query that
+  can't be executed``.
+
+- Support implicit object creation in update statements. For example, ``UPDATE
+  t SET obj['x'] = 10`` will now implicitly set ``obj`` to ``{obj: {x: 10}}``
+  on rows where ``obj`` was ``null``.
+
+- Added the :ref:`sql-create-table-codec` parameter to :ref:`sql-create-table`
+  to control the compression algorithm used to store data.
+
+- The ``node`` argument of the :ref:`REROUTE <sql-alter-table-reroute>`
+  commands of :ref:`sql-alter-table` can now either be the ID or the name of a
+  node.
+
+- Added support for the PostgreSQL array string literal notation.

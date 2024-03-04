@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="crate-libs-dex" />
+        <module name="crate-libs-guice" />
+        <module name="crate-libs-sql-parser" />
+        <module name="dns-discovery" />
+        <module name="es-discovery-ec2" />
+        <module name="crate-jmx-monitoring" />
+        <module name="crate-app" />
+        <module name="es-repository-s3" />
+        <module name="crate-libs-cli" />
+        <module name="es-repository-url" />
+        <module name="es-repository-azure" />
+        <module name="crate-lang-js" />
+        <module name="crate-copy-s3" />
+        <module name="crate-libs-pgwire" />
+        <module name="es-analysis-common" />
+        <module name="crate-functions" />
+        <module name="jlink-jdk" />
+        <module name="es-analysis-phonetic" />
+        <module name="crate-benchmarks" />
+        <module name="crate-libs-es-x-content" />
+        <module name="crate-libs-shared" />
+        <module name="crate-server" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
